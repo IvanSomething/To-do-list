@@ -4,6 +4,7 @@
 <% @tasks.each do |task| %>
     <p><%= task.title %></p>
     <p><%= task.description %></p>
+    <p><%= link_to task.status, toggle_status_task_path(task) %></p>
     <%= link_to "Edit", edit_task_path(task) %>
     <%= link_to "Delete Task", task_path(task), method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>

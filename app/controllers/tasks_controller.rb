@@ -13,11 +13,11 @@ class TasksController < ApplicationController
     @task = Task.new(task_params)
 
     respond_to do |format|
-        if @task.save
-            format.html { redirect_to root_path }
-        else
-            format.html { render :new }
-        end
+      if @task.save
+        format.html { redirect_to root_path }
+      else
+        format.html { render :new }
+      end
     end
   end
 
@@ -28,24 +28,37 @@ class TasksController < ApplicationController
   def update
     @task = Task.find(params[:id])
 
-      respond_to do |format|
-          if @task.update(task_params)
-              format.html { redirect_to root_path }
-          else
-              format.html { render :edit }
-          end
+    respond_to do |format|
+      if @task.update(task_params)
+        format.html { redirect_to root_path }
+      else
+        format.html { render :edit }
       end
+    end
   end
 
   def destroy
     @task = Task.find(params[:id])
-    
+
     @task.destroy
 
     respond_to do |format|
       format.html { redirect_to root_url }
     end
-end
+  end
+
+  def toggle_status
+    @task = Task.find(params[:id])
+
+    if @task.recently_added?
+      @task.in_progress!
+    elsif @task.in_progress?
+      @task.done!
+    elsif @task.done?
+      @task.recently_added!
+    end
+    redirect_to root_url
+  end
 
   private
 
