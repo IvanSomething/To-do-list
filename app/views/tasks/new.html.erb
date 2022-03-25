@@ -1,17 +1,28 @@
-<h1>Create a new Task</h1>
+<center><h1>Create a new Task</h1></center>
+
+<p><center><%= link_to 'All tasks', tasks_path, class: 'btn btn-primary' %></center></p>
 
 <%= form_for(@task) do |f| %>
-    <div class="field">
-      <%= f.label :title %>
+    <div class="form-text">
+      <a<%= f.label 'Title:' %>
+      <p></p>
       <%= f.text_field :title %>
     </div>
-  
-    <div class="field">
-      <%= f.label :description %>
+    <p></p>
+    <div class="form-text">
+      <%= f.label 'Description:' %>
+      <p></p>
       <%= f.text_area :description %>
     </div>
-  
+    <p></p>
+    <p></p>
+    <div class="field">
+      <%= f.label 'User:' %>
+      <%= f.collection_select :user_id, User.order(:first_name), :id, :first_name %>
+    </div>
+    <p></p>
     <div class="actions">
       <%= f.submit %>
     </div>
+    <p></p>
 <% end %>

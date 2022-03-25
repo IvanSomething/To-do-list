@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TasksController < ApplicationController
+  before_action :find_task, only: %i[edit update destroy toggle_status]
+
   def index
     @tasks = Task.all
   end
@@ -12,44 +14,27 @@ class TasksController < ApplicationController
   def create
     @task = Task.new(task_params)
 
-    respond_to do |format|
-      if @task.save
-        format.html { redirect_to root_path }
-      else
-        format.html { render :new }
-      end
+    if @task.save
+      redirect_to tasks_path
+    else
+      render :new
     end
   end
 
-  def edit
-    @task = Task.find(params[:id])
-  end
-
   def update
-    @task = Task.find(params[:id])
-
-    respond_to do |format|
-      if @task.update(task_params)
-        format.html { redirect_to root_path }
-      else
-        format.html { render :edit }
-      end
+    if @task.update(task_params)
+      redirect_to tasks_path
+    else
+      render :edit
     end
   end
 
   def destroy
-    @task = Task.find(params[:id])
-
     @task.destroy
-
-    respond_to do |format|
-      format.html { redirect_to root_url }
-    end
+    redirect_to tasks_url
   end
 
   def toggle_status
-    @task = Task.find(params[:id])
-
     if @task.recently_added?
       @task.in_progress!
     elsif @task.in_progress?
@@ -57,12 +42,16 @@ class TasksController < ApplicationController
     elsif @task.done?
       @task.recently_added!
     end
-    redirect_to root_url
+    redirect_to tasks_url
   end
 
   private
 
+  def find_task
+    @task = Task.find(params[:id])
+  end
+
   def task_params
-    params.require(:task).permit(:title, :description)
+    params.require(:task).permit(:title, :description, :user_id)
   end
 end
