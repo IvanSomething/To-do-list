@@ -1,16 +1,27 @@
-<h1>Create a new Task</h1>
+<center><h1>Create a new Task</h1></center>
+
+<p><%= link_to 'All tasks', tasks_path %></p>
 
 <%= form_for(@task) do |f| %>
     <div class="field">
       <%= f.label :title %>
+      <p></p>
       <%= f.text_field :title %>
     </div>
-  
+    <p></p>
     <div class="field">
       <%= f.label :description %>
+      <p></p>
       <%= f.text_area :description %>
     </div>
-  
+    <p></p>
+    <p></p>
+    <div class="field">
+      <%= f.label :user %>
+      <p></p>
+      <%= f.collection_select :user_id, User.order(:first_name), :id, :first_name %>
+    </div>
+    <p></p>
     <div class="actions">
       <%= f.submit %>
     </div>

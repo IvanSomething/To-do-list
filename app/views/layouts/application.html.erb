@@ -11,9 +11,16 @@
   </head>
 
   <body>
-    <%= yield %>
-  </body>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
-  <p class="notice"><%= notice %></p>
-  <p class="alert"><%= alert %></p>
+    <div class="container">
+    <%= yield %>
+
+    <% if current_user.is_a?(User) %>
+      <%= link_to "Edit User", edit_user_registration_path %>
+      <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+    <% end %>
+    </div>
+  </body>
 </html>

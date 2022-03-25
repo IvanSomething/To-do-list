@@ -3,7 +3,7 @@
 class Task < ApplicationRecord
   validates :title, :description, presence: true
 
-  enum status: { 'Recently added': 0, 'In progress': 1, 'Done': 2 }
+  enum status: { recently_added: 0, in_progress: 1, done: 2 }
 
-  has_and_belongs_to_many :users
+  belongs_to :user
 end
